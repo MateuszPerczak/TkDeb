@@ -120,6 +120,7 @@ class Debugger:
         # show window
         self.main_window.bind('<MouseWheel>', self.on_mouse)
         self.entry.bind('<KeyRelease>', self.entry_diff)
+        self.main_window.bind('<Escape>', lambda _: self.close_debugger())
         self.main_window.after(100, self.init_img_window)
         self.main_window.after(150, lambda: self.inspect_widget(self.parent))
         self.check_bind_collisions()
