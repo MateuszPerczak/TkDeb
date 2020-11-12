@@ -13,7 +13,7 @@ Debugger for tkinter application
 ## Using debugger in tkinter app
 
 ```py
-from PyDeb import Debugger
+from TkDeb import Debugger
 from tkinter import Tk
 
 root = Tk()
