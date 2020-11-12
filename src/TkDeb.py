@@ -6,7 +6,7 @@ class Debugger:
     def __init__(self, parent) -> None:
         self.parent = parent
         del parent
-        self.main_window: ClassVar = Toplevel(self.parent)
+        self.main_window: ClassVar = Toplevel()
         self.disallowed_windows: list = [self.main_window.winfo_id()]
         # hide window
         self.main_window.withdraw()
@@ -116,7 +116,7 @@ class Debugger:
         canvas_frame.pack(side='top', fill='both', expand=True)
         widget_frame.pack(side='top', fill='both', expand=True, padx=10)
         mid_frame.pack(side='top', fill='both', expand=True)
-        Label(self.main_window, text='PyDeb BY MATEUSZ PERCZAK (Łosiek)', background='#111', foreground='#fff', font=('Consolas', 12), anchor='w').pack(side='top', fill='x', padx=10, pady=(10, 0))
+        Label(self.main_window, text='TkDeb BY MATEUSZ PERCZAK (Łosiek)', background='#111', foreground='#fff', font=('Consolas', 12), anchor='w').pack(side='top', fill='x', padx=10, pady=(10, 0))
         # show window
         self.main_window.bind('<MouseWheel>', self.on_mouse)
         self.entry.bind('<KeyRelease>', self.entry_diff)
@@ -175,8 +175,6 @@ class Debugger:
     def while_inspection(self, _) -> None:
         position: tuple = self.parent.winfo_pointerxy()
         widget: ClassVar = self.parent.winfo_containing(position[0], position[1])
-        if widget:
-            pass
         if self.widget != widget:
             self.widget = widget
             self.unhighlight_elements()
@@ -314,7 +312,7 @@ class Debugger:
             self.add_child(widget)
 
     def update_canvas(self) -> None:
-        self.canvas.itemconfigure(self.canvas_window, width=self.canvas.winfo_width(), height=len(self.widget.winfo_children()) * 51)
+        self.canvas.itemconfigure(self.canvas_window, width=self.canvas.winfo_width(), height=0)
         self.canvas.yview_moveto(0)
 
     def add_child(self, widget) -> None:
