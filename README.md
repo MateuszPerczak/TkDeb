@@ -20,6 +20,23 @@ root = Tk()
 Debugger(root)
 root.mainloop()
 ```
+in class
+```py
+from TkDeb import Debugger
+from tkinter import Tk
+
+class App(Tk):
+  def __init__(self):
+    super().__init__()
+    Debugger(root)
+    
+if __name__ == '__main__':
+  app = App()
+  app.mainloop()
+
+```
+
+
 ## Keyboard shortcuts:
 
 + F2 - extended / normal mode
