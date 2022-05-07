@@ -27,6 +27,7 @@ class MainPage(ttk.Frame):
             'inspect': [PhotoImage(file=join(self.abs_path, r'Resources\\start_inspection.png')), PhotoImage(file=join(self.abs_path, r'Resources\\end_inspection.png'))],
             'widgets': PhotoImage(file=join(self.abs_path, r'Resources\\widgets.png')),
             'pin': [PhotoImage(file=join(self.abs_path, r'Resources\\pin.png')), PhotoImage(file=join(self.abs_path, r'Resources\\unpin.png'))],
+            'delete': PhotoImage(file=join(self.abs_path, r'Resources\\delete.png')),
         }
 
         # ui
@@ -37,11 +38,14 @@ class MainPage(ttk.Frame):
         self.inspect_button.pack(side='left', padx=10)
         # widgets label
         ttk.Label(
-            top_frame, image=self.icons['widgets'], textvariable=self.widgets_counter, style='debugger.TLabel', compound='left').pack(side='left', padx=(0, 10))
+            top_frame, image=self.icons['widgets'], textvariable=self.widgets_counter, style='debugger.TLabel', compound='left').pack(side='left', padx=(0, 10), fill='y')
         # pin bytton
         self.pin_button: ttk.Button = ttk.Button(
             top_frame, image=self.icons['pin'][self.pinned], command=self.pin_window, style='debugger.TButton')
         self.pin_button.pack(side='left', padx=(0, 10))
+        ttk.Button(
+            top_frame, image=self.icons['delete'], command=self.inspector.delete_current_widget, style='debugger.TButton').pack(side='left', padx=(0, 10))
+
         top_frame.pack(side='top', fill='x', pady=10)
         # middle frame
         mid_frame: ttk.Frame = ttk.Frame(self, style='debugger.dark.TFrame')
@@ -57,6 +61,9 @@ class MainPage(ttk.Frame):
         # pack mid frame
         mid_frame.pack(side='top', fill='both',
                        expand=True, pady=(0, 10), padx=10)
+
+        ttk.Label(self, text=' TkDeb by Mateusz Perczak',
+                  style='debugger.TLabel').pack(side='left', fill='x', expand=True, pady=(0, 10), padx=10)
         # generate tree
         self.widget_tree.generate_tree(self.parent)
         self.widget_tree.bind('select', self.select)
@@ -110,7 +117,8 @@ class MainPage(ttk.Frame):
             self.widget_tree.generate_tree(self.parent)
             self.widget_tree.highlight_widget(widget)
             self.widgets_counter.set(f"{self.num_of_widgets} ")
-        self.widget_props.load_properties(widget)
+        if widget:
+            self.widget_props.load_properties(widget)
 
     def select(self: ttk.Frame, widget: object) -> None:
         old_widget = self.inspector.get_widget()

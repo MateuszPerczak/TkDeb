@@ -24,7 +24,9 @@ class WidgetProperties(ttk.Frame):
 
     def load_properties(self: object, widget: object) -> None:
         if widget:
+            scroll_pos = self.list_box.yview()[0]
             self.list_box.delete(0, 'end')
             properties: dict = self.matcher.match(widget)
             for key in properties:
                 self.list_box.insert('end', f'{key}: {properties[key]}')
+            self.list_box.yview_moveto(scroll_pos)

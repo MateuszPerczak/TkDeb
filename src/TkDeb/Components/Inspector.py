@@ -106,3 +106,19 @@ class Inspector:
     def __unhighlight_all(self: object) -> None:
         for widget in self.highlighted_widget:
             self.__unhighlight_widget(widget)
+
+    def delete_current_widget(self: object, _: Event = None) -> None:
+        if self.widget and self.widget.winfo_class() not in ('Tk', 'Toplevel'):
+            widget_parent: object = self.parent._nametowidget(
+                self.widget.winfo_parent())
+            parent_childrens: list = widget_parent.winfo_children()
+            child_index: int = parent_childrens.index(self.widget)
+            # delete widget
+            parent_childrens.remove(self.widget)
+            self.widget.destroy()
+            if parent_childrens:
+                # select next widget
+                self.widget = parent_childrens[child_index - 1]
+            else:
+                # select parent widget
+                self.widget = widget_parent

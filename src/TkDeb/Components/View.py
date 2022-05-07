@@ -12,9 +12,7 @@ class Layout:
         self.parent.layout = ttk.Style(self.parent)
         # abs path
         self.abs_path = absolute_path
-        # set theme to clam
-        # self.parent.layout.theme_use('clam')
-        # button
+
         self.parent.layout.layout('debugger.TButton', [('Button.padding', {
                                   'sticky': 'nswe', 'children': [('Button.label', {'sticky': 'nswe'})]})])
         # treeview
@@ -45,9 +43,10 @@ class Layout:
 
         # scrollbar
         self.parent.layout.element_create(
-            "debugger.Vertical.Scrollbar.trough", "from", "clam")
+            'debugger.Vertical.Scrollbar.trough', 'from', 'clam')
         self.parent.layout.element_create(
-            "debugger.Vertical.Scrollbar.thumb", "from", "clam")
+            'debugger.Vertical.Scrollbar.thumb',
+            'from', 'clam')
         self.parent.layout.layout('debugger.Vertical.TScrollbar', [('debugger.Vertical.Scrollbar.trough', {'children': [
             ('debugger.Vertical.Scrollbar.thumb', {'expand': '1', 'sticky': 'nswe'})], 'sticky': 'ns'})])
 
@@ -76,21 +75,18 @@ class Theme:
         self.parent.layout.configure(
             'debugger.dark.TFrame', background=self.colors[theme][1])
         # label
-        self.parent.layout.configure('debugger.TLabel', background=self.colors[theme][1], font=(
-            'catamaran 12 bold'), foreground=self.colors[theme][3], padding=1)
+        self.parent.layout.configure('debugger.TLabel', background=self.colors[theme][0], font=(
+            'catamaran 12 bold'), foreground=self.colors[theme][3])
         # button
         self.parent.layout.configure('debugger.TButton', background=self.colors[theme][0], font=(
-            'catamaran 13 bold'), foreground=self.colors[theme][3], anchor='w', width=10, padding=5)
+            'catamaran 12 bold'), foreground=self.colors[theme][3], anchor='w', padding=4)
+
         self.parent.layout.map('debugger.TButton', background=[('pressed', '!disabled', self.colors[theme][1]), (
             'active', self.colors[theme][1]), ('selected', self.colors[theme][1])])
 
         # treewiev
         self.parent.layout.map('debugger.Treeview', background=[
             ('selected', self.colors[theme][1])], foreground=[('selected', self.colors[theme][3])])
-
-        # label
-        self.parent.layout.configure('debugger.TLabel', background=self.colors[theme][0], font=(
-            'catamaran 12 bold'), foreground=self.colors[theme][3])
 
         # scrollbar
         self.parent.layout.configure('debugger.Vertical.TScrollbar', gripcount=0, background=self.colors[theme][2], darkcolor=self.colors[

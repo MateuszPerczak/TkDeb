@@ -30,7 +30,8 @@ class Debugger(Toplevel):
         self.iconbitmap(join(self.abs_path, r'Resources\\icon.ico'))
         # binds
         self.parent.unbind('<F12>')
-        self.bind('<Escape>', self.__exit)
+        self.bind('<Escape>', lambda _: self.__exit())
+        self.bind('<Delete>', self.inspector.delete_current_widget)
         # display init page
         self.init_page: InitPage = InitPage(
             self, props={'abs_path': self.abs_path})

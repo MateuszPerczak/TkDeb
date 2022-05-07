@@ -3,14 +3,14 @@ class Matcher:
         self.properties: dict = {
             'Tk': {'Class': '', 'Name': '', 'Manager': '', 'Geometry': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': ''},
             'Toplevel': {'Class': '', 'Name': '', 'Manager': '', 'Geometry': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': ''},
-            'TLabel': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'WrapLength': '', 'Justify': '', 'Image': '', 'Compound': '', 'Style': ''},
-            'TButton': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'Image': '', 'Compound': '', 'Style': ''},
-            'TFrame': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Style': ''},
-            'TRadiobutton': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'Image': '', 'Compound': '', 'Style': ''},
-            'TScale': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Value': '', 'Style': ''},
-            'TEntry': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Value': '', 'Style': ''},
+            'TLabel': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'WrapLength': 'Infinite', 'Justify': 'Default', 'Image': 'Not specified', 'Compound': 'None', 'Style': 'Default'},
+            'TButton': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'Image': 'Not specified', 'Compound': 'None', 'Style': 'Default'},
+            'TFrame': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Childrens': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Style': 'Default'},
+            'TRadiobutton': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'Image': 'Not specified', 'Compound': 'None', 'Style': 'Default'},
+            'TScale': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Value': '', 'Style': 'Default'},
+            'TEntry': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Value': '', 'Style': 'Default'},
             'TProgressbar': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Progress': ''},
-            'TCheckbutton': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'WrapLength': '', 'Image': '', 'Compound': '', 'Style': ''}
+            'TCheckbutton': {'Class': '', 'Name': '', 'Manager': '', 'Manager Config': '', 'Parent': '', 'Position': '', 'Dimentions': '', 'Binds': '', 'State': '', 'Visible': '', 'Text': '', 'WrapLength': 'Infinite', 'Image': 'Not specified', 'Compound': 'None', 'Style': 'Default'}
 
         }
 
@@ -32,9 +32,10 @@ class Matcher:
             'Progress': widget['value'] if widget.winfo_class() in ('TProgressbar') else '',
             'Image': widget['image'] if widget.winfo_class() in ('TButton', 'TLabel', 'TRadiobutton') else '',
             'Visible': bool(widget.winfo_ismapped()),
-            'Compound': widget['compound'] if widget.winfo_class() in ('TLabel', 'TButton', 'TRadiobutton') else '',
+            'Compound': f'{widget["compound"]}'.capitalize() if widget.winfo_class() in ('TLabel', 'TButton', 'TRadiobutton') else '',
             'Justify': widget['justify'] if widget.winfo_class() in ('TLabel') else '',
-            'Style': widget['style'] if widget.winfo_class() not in ('Tk', 'Toplevel') else '',
+            'Style': widget['style'] if widget.winfo_class() not in ('Tk', 'Toplevel') and widget.winfo_class()[0] == 'T' else '',
+            'Childrens': len(widget.winfo_children()),
         }
         return properties
 
@@ -44,7 +45,8 @@ class Matcher:
         available_properties: dict = {}
         if widget_class in self.properties:
             for key in self.properties[widget_class]:
-                available_properties[key] = properties[key]
+                propertie: str = properties[key]
+                available_properties[key] = propertie if propertie else self.properties[widget_class][key]
             return available_properties
         else:
             available_properties['WARNING'] = f' THIS IS A LEGACY OR UNKNOWN WIDGET'
