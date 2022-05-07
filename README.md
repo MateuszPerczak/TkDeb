@@ -45,7 +45,7 @@ Main programmer, designer: Mateusz Perczak
 
 ## Pictures of application
 
-![Picture of application](https://raw.githubusercontent.com/losek1/PyDeb/master/images/app.jpg)
+![Picture of application](https://raw.githubusercontent.com/MateuszPerczak/TkDeb/master/images/app.jpg)
 
 ## Icons
 
