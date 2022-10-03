@@ -1,6 +1,6 @@
 ![Header](./images/tkdeb_header.jpg)
 
-# PyDeb
+# TkDeb
 
 TkDeb is a simple debugger for the Tkinter application with allows you to see all widgets properties without needing to print them in your python code!
 
